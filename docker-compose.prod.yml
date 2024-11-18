@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  # garage:
+  #   image: dxflrs/garage:v1.0.1
+  #   network_mode: "host"
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /etc/garage.toml:/etc/garage.toml
+  #     - /data/garage/meta:/var/lib/garage/meta
+  #     - /data/garage/data:/var/lib/garage/data
+  imageresizer:
+    build: ./imageResizer
