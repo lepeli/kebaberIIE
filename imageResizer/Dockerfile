@@ -12,6 +12,8 @@ RUN addgroup -S appgroup && adduser -S app -G appgroup
 
 USER app
 
+# Setup the app
+
 COPY ./src/ /app
 
 WORKDIR /app

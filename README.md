@@ -18,3 +18,6 @@ Celle-ci est hebergée par Yvan dans son salon. À une différence près de la v
 
 # Lancement en local
 
+```bash
+docker compose --file docker-compose.local.yml up -d
+```
