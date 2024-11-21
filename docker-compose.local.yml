@@ -16,5 +16,12 @@ services:
      - redis_vol:/data
     command: "--save 30 1"
 
+  web:
+    build: ./web
+    volumes:
+      - "./web/src/:/app"
+    ports:
+      - 8080:8080
+
 volumes:
   redis_vol:
