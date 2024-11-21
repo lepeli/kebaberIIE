@@ -7,5 +7,7 @@ def home():
     return render_template("index.html")
 @app.route("/hello")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, saucisse!</p>"
 
+
+app.run(host="0.0.0.0", port=8080, debug=True)
