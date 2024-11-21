@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   # garage:
   #   image: dxflrs/garage:v1.0.1
@@ -11,3 +9,12 @@ services:
   #     - /data/garage/data:/var/lib/garage/data
   imageresizer:
     build: ./imageResizer
+
+  redis:
+    image: redis:latest
+    volumes: 
+     - redis_vol:/data
+    command: "--save 30 1"
+
+volumes:
+  redis_vol:
