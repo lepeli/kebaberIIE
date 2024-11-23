@@ -73,11 +73,11 @@ def index():
         cur = conn.cursor()
         # Requête SQL pour récupérer les restaurants avec leurs informations et note moyenne
         query = """
-        SELECT r.nom, r.adresse, r.site_web, r.url_photo,
+        SELECT r.id, r.nom, r.adresse, r.site_web, r.url_photo,
                COALESCE(AVG(a.note), 0) AS moyenne_note
         FROM "Restaurant" r
         LEFT JOIN "Avis" a ON r.nom = a.restaurant
-        GROUP BY r.nom, r.adresse, r.site_web, r.url_photo
+        GROUP BY r.id, r.nom, r.adresse, r.site_web, r.url_photo
         ORDER BY moyenne_note DESC;
         """
         cur.execute(query)
