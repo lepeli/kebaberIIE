@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -24,12 +24,12 @@ def formulaire_avis(id:int):
     print(id)
     return render_template('formulaire_avis.html')
 
-@app.route('/formulaire_restaurant')
+@app.route('/ajout_restaurant')
 def formulaire_restaurant():
     return render_template('ajout_restaurant.html')
 
 
-@app.post('/ajout_avis')
+@app.post('/ajout_avis/<int:id>')
 def ajout_avis(id:int):
     conn = get_db_connection()
     try:
@@ -39,14 +39,16 @@ def ajout_avis(id:int):
         (%s, %s, %s, %s)
 
         """
-        cur.execute(query, (id, request.args["commentaire"], request.args["note"], request.args["url_photo"]))
+        cur.execute(query, (id, request.form["commentaire"], request.form["note"], request.form["url_photo"]))
     except psycopg2.Error as e:
         print(f"Erreur lors de l'exécution de la requête SQL : {e}")
     finally:
         conn.close()
+    return render_template("restaurant.html", id =id)
 
 @app.post('/ajout_restaurant')
 def ajout_restaurant():
+    print(request.form)
     conn = get_db_connection()
     try:
         cur = conn.cursor()
@@ -55,12 +57,13 @@ def ajout_restaurant():
         (%s, %s, %s, %s, %s, %s)
 
         """
-        cur.execute(query, (id, request.args["nom"], request.args["adresse"], request.args["code_postal"],
-                    request.args["site_web"], request.args["url_photo"], request.args["prix"]))
+        cur.execute(query, (id, request.form["nom"], request.form["adresse"], request.form["code_postal"],
+                    request.form["site_web"], request.form["url_photo"], request.form["prix"]))
     except psycopg2.Error as e:
         print(f"Erreur lors de l'exécution de la requête SQL : {e}")
     finally:
         conn.close()
+    return render_template("formulaire_avis.html")
 
 # Route principale pour afficher les restaurants et leurs avis
 @app.route('/')
