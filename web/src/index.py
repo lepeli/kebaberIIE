@@ -57,8 +57,9 @@ def ajout_restaurant():
         (%s, %s, %s, %s, %s, %s)
 
         """
-        cur.execute(query, (id, request.form["nom"], request.form["adresse"], request.form["code_postal"],
+        cur.execute(query, (request.form["nom"], request.form["adresse"], request.form["code_postal"],
                     request.form["site_web"], request.form["url_photo"], request.form["prix"]))
+        cur.execute("commit;")
     except psycopg2.Error as e:
         print(f"Erreur lors de l'exécution de la requête SQL : {e}")
     finally:
