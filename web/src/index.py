@@ -19,10 +19,22 @@ def get_db_connection():
         print(f"Erreur de connexion à la base de données : {e}")
         raise
 
-@app.route('/formulaire_avis/<int:id>')
-def formulaire_avis(id:int):
-    print(id)
-    return render_template('formulaire_avis.html')
+# Fonction pour déterminer la fourchette de prix
+def get_price_range(prix):
+    if prix < 10:
+        return "Moins de 10€"
+    elif 10 <= prix < 20:
+        return "10€ à 20€"
+    elif 20 <= prix < 30:
+        return "20€ à 30€"
+    elif 30 <= prix < 50:
+        return "30€ à 50€"
+    else:
+        return "Plus de 50€"        
+
+@app.route('/formulaire_avis/<int:restaurant_id>')
+def formulaire_avis(restaurant_id):
+    return render_template('formulaire_avis.html', restaurant_id=restaurant_id)
 
 @app.route('/ajout_restaurant')
 def formulaire_restaurant():
@@ -46,6 +58,41 @@ def ajout_avis(id:int):
         conn.close()
     return render_template("restaurant.html", id =id)
 
+@app.route('/restaurant/<int:restaurant_id>')
+def restaurant_details(restaurant_id):
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        # Récupérer les informations du restaurant
+        cur.execute("""
+            SELECT id, nom, adresse, code_postal, site_web, url_photo, prix
+            FROM Restaurant WHERE id = %s;
+        """, (restaurant_id,))
+        restaurant = cur.fetchone()
+
+        # Récupérer les avis du restaurant
+        cur.execute("""
+            SELECT id, restaurant, commentaire, note, url_photo
+            FROM Avis WHERE restaurant = %s;
+        """, (restaurant_id,))
+        avis = cur.fetchall()
+
+        cur.close()
+    except Exception as e:
+        print(f"Erreur lors de la récupération des données du restaurant : {e}")
+        return "Erreur lors de la récupération des données.", 500
+    finally:
+        conn.close()
+
+    # Vérifier si le restaurant existe
+    if not restaurant:
+        return "Restaurant introuvable.", 404
+
+    # Passer les données et la fonction au template
+    return render_template('restaurant.html', restaurant=restaurant, avis=avis, get_price_range=get_price_range)
+
+
+
 @app.post('/ajout_restaurant')
 def ajout_restaurant():
     print(request.form)
@@ -66,18 +113,6 @@ def ajout_restaurant():
         conn.close()
     return render_template("formulaire_avis.html")
 
-# Fonction pour déterminer la fourchette de prix
-def get_price_range(prix):
-    if prix < 10:
-        return "Moins de 10€"
-    elif 10 <= prix < 20:
-        return "10€ à 20€"
-    elif 20 <= prix < 30:
-        return "20€ à 30€"
-    elif 30 <= prix < 50:
-        return "30€ à 50€"
-    else:
-        return "Plus de 50€"        
 
 # Route principale pour afficher les restaurants et leur note moyenne
 @app.route('/')

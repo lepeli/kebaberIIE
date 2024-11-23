@@ -294,6 +294,86 @@ h1 {
   color: #777;
 }
 
+
+.restaurant-details {
+  text-align: left;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.restaurant-details h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.restaurant-details p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.restaurant-details a {
+  color: #0eb47d;
+  text-decoration: none;
+}
+
+.restaurant-details a:hover {
+  text-decoration: underline;
+}
+
+.restaurant-image img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.reviews h2 {
+  font-size: 1.8rem;
+  color: #0eb47d;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.avis-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.avis-list th, .avis-list td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.avis-list th {
+  background-color: #0eb47d;
+  color: #fff;
+  font-weight: bold;
+}
+
+.avis-list td img.avis-photo {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.avis-list td {
+  font-size: 0.9rem;
+}
+
+.avis-list tr:hover {
+  background-color: #f9f9f9;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .restaurant-table th, .restaurant-table td {

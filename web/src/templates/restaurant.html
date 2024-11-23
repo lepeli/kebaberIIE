@@ -1,47 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="static/style.css">
-    <title>Restaurant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{ restaurant[1] }}</title>
 </head>
-<body class="container">
-     <!-- Header -->
-     <header class="main-header">
+<body class="wrapper">
+    <!-- Header -->
+    <header class="main-header">
         <div class="container">
             <h1 class="logo">KebaberIIE</h1>
-            <div class="search-add">
-                
-                <a href="ajout_avis"> Accueil</button> </a>
-                <a href="ajout_avis"> + Ajouter un restaurant</button> </a>
-                   
-            
-            </div>
+            <nav>
+                <a class="btn-add" href="{{ url_for('index') }}" class="btn-nav">Accueil</a>
+                <a class="btn-add" href="{{ url_for('formulaire_avis', restaurant_id=restaurant[0]) }}" class="btn-nav">Ajouter un avis</a>
+            </nav>
         </div>
     </header>
-    
-    <h1 class="main-header">Le {{nom_du_restaurant}} </h1>
-    
-    {% if avis %}
-    <table class="avis-list">
-        <tr>
-            <td>Photo</td>
-            <td>Commentaire</td>
-            <td>Note</td>
-        </tr>
-        {% for a in avis %}
-            <tr class="avis-item">
-                <td>
-                    <img src="{{ a[4] }}" alt="Image du restaurant" width="150">
-                </td>
-                <td>{{ a[2] }}</td>
-                <td>{{ a[3 ]}}</td>
-            </tr>
-        {% endfor %}
-        </table>
-{% else %}
-    <p>Aucun restaurant trouvé.</p>
-{% endif %}
 
-       
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Restaurant Details -->
+        <section class="restaurant-details">
+            <h1>{{ restaurant[1] }}</h1>
+            <p><strong>Adresse :</strong> {{ restaurant[2] }}</p>
+            <p><strong>Code Postal :</strong> {{ restaurant[3] }}</p>
+            <p><strong>Site Web :</strong> 
+                {% if restaurant[4] %}
+                    <a href="{{ restaurant[4] }}" target="_blank">{{ restaurant[4] }}</a>
+                {% else %}
+                    Non renseigné
+                {% endif %}
+            </p>
+            <p><strong>Fourchette de prix :</strong> {{ get_price_range(restaurant[6]) }}</p>
+
+            <div class="restaurant-image">
+                <img src="{{ restaurant[5] or url_for('static', filename='default.png') }}" alt="Photo du restaurant">
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews">
+            <h2>Les avis</h2>
+            {% if avis %}
+                <table class="avis-list">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Commentaire</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in avis %}
+                            <tr>
+                                <td>
+                                    <img src="{{ a[4] or url_for('static', filename='default-avis.png') }}" alt="Photo de l'avis" class="avis-photo">
+                                </td>
+                                <td>{{ a[2] }}</td>
+                                <td>{{ a[3] }}/10</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun avis disponible pour ce restaurant.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 KebaberIIE - Tous droits réservés</p>
+    </footer>
 </body>
 </html>
