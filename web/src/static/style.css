@@ -186,9 +186,46 @@ h1 {
   margin: 5px 0;
 }
 .restaurant-card a {
-  color: #007BFF;
+  color: #0eb47d;
   text-decoration: none;
 }
 .restaurant-card a:hover {
   text-decoration: underline;
+}
+.avis-form {
+  width: 100%; /* Le formulaire prend toute la largeur de la page */
+  max-width: 100%; /* Empêche des limites inutiles */
+  margin: 0; /* Supprime les marges qui centrent */
+  padding: 20px; /* Ajoute un peu d'espace interne */
+  box-sizing: border-box; /* Inclut les bordures et le padding dans la largeur totale */
+}
+
+.avis-form table {
+  width: 100%; /* La table occupe toute la largeur */
+  border-collapse: collapse; /* Supprime les espaces entre les cellules */
+}
+
+.avis-form textarea, 
+.avis-form select, 
+.avis-form input[type="submit"] {
+  width: 100%; /* Les champs occupent toute la largeur */
+  margin-top: 10px; /* Espacement entre les champs */
+  padding: 10px; /* Espace interne pour rendre les champs confortables */
+  font-size: 16px; /* Taille de police standard */
+  border: 1px solid #ccc; /* Bordure grise standard */
+  border-radius: 5px; /* Coins arrondis */
+  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+}
+
+.avis-form input[type="submit"] {
+  background-color: #0eb47d; /* Couleur bleu standard pour le bouton */
+  color: white; /* Texte blanc */
+  font-weight: bold; /* Texte en gras */
+  cursor: pointer; /* Change le curseur en pointeur */
+  border: none; /* Pas de bordure supplémentaire */
+  transition: background-color 0.3s ease; /* Animation pour l'effet hover */
+}
+
+.avis-form input[type="submit"]:hover {
+  background-color: #075404; /* Couleur plus foncée au survol */
 }
