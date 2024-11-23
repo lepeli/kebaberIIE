@@ -24,8 +24,8 @@ def formulaire_avis(id:int):
     print(id)
     return render_template('formulaire_avis.html')
 
-@app.route('/ajout_restaurant')
-def ajout_restaurant():
+@app.route('/formulaire_restaurant')
+def formulaire_restaurant():
     return render_template('ajout_restaurant.html')
 
 
@@ -45,7 +45,22 @@ def ajout_avis(id:int):
     finally:
         conn.close()
 
+@app.post('/ajout_restaurant')
+def ajout_restaurant():
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        query = """
+        INSERT INTO  Restaurant (nom, adresse, code_postal, site_web, url_photo, prix ) VALUES
+        (%s, %s, %s, %s, %s, %s)
 
+        """
+        cur.execute(query, (id, request.args["nom"], request.args["adresse"], request.args["code_postal"],
+                    request.args["site_web"], request.args["url_photo"], request.args["prix"]))
+    except psycopg2.Error as e:
+        print(f"Erreur lors de l'exécution de la requête SQL : {e}")
+    finally:
+        conn.close()
 
 # Route principale pour afficher les restaurants et leurs avis
 @app.route('/')
