@@ -45,7 +45,7 @@
                         <tbody>
                             {% for restaurant in restaurants %}
                                 <tr>
-                                    <td>{{ restaurant[1] if restaurant[1] else 'Non renseigné' }}</td>
+                                    <td><a href="restaurant/{{ restaurant[0] }}">{{ restaurant[1] if restaurant[1] else 'Non renseigné' }}</a></td>
                                     <td>{{ restaurant[2] if restaurant[2] else 'Non renseigné' }}</td>
                                     <td>{{ restaurant[3] if restaurant[3] else 'Non renseigné' }}</td>
                                     <td>
