@@ -19,9 +19,33 @@ def get_db_connection():
         print(f"Erreur de connexion à la base de données : {e}")
         raise
 
-@app.route('/formulaire_avis')
-def formulaire_avis():
+@app.route('/formulaire_avis/<int:id>')
+def formulaire_avis(id:int):
+    print(id)
     return render_template('formulaire_avis.html')
+
+@app.route('/ajout_restaurant')
+def ajout_restaurant():
+    return render_template('ajout_restaurant.html')
+
+
+@app.post('/ajout_avis')
+def ajout_avis(id:int):
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        query = """
+        INSERT INTO  Avis (restaurant, commentaire, note, url_photo) VALUES
+        (%s, %s, %s, %s)
+
+        """
+        cur.execute(query, (id, request.args["commentaire"], request.args["note"], request.args["url_photo"]))
+    except psycopg2.Error as e:
+        print(f"Erreur lors de l'exécution de la requête SQL : {e}")
+    finally:
+        conn.close()
+
+
 
 # Route principale pour afficher les restaurants et leurs avis
 @app.route('/')
@@ -48,7 +72,7 @@ def index():
         conn.close()
 
     # Passer la liste des restaurants au template
-    return render_template('index.html', restaurants=restaurants)
+    return render_template('index.html')
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
