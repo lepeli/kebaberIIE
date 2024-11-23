@@ -1,47 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Mon avis</title>
 </head>
 <body class="container">
-    <h1 class="main-header">Mon avis sur le {{nom_du_restaurant}} </h1>
-    <form class="avis-form" action="/ajout_avis" method="POST">
-        <table>
-            <tr>
-                <td>Commentaire :</td>
-                <td><textarea name="commentaire" required="required" rows="5" cols="50"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>Note :</td>
-                <td>   <!--  <input type="int" name="note" required="required"  /> -->
-                    <select name="note">
-                        <option value="">--Sélectionner la note que vous souhaitez donner--</option>
-                        <option value="10">10</option>
-                        <option value="9">9</option>
-                        <option value="8">8</option>
-                        <option value="7">7</option>
-                        <option value="6">6</option>
-                        <option value="5">5</option>
-                        <option value="4">4</option>
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-    
-                      </select>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>        
-                    <input type="submit" value="Publier mon avis" />
-                </td>
-            </tr>
-
-        </table>
-
-
-    </form>
+    <div class="main-content">
+        <h1 class="main-header">Mon avis sur le {{ nom_du_restaurant }}</h1>
+        <form class="avis-form" action="/ajout_avis" method="POST">
+            <!-- Champ caché pour transmettre l'ID du restaurant -->
+            <input type="hidden" name="restaurant_id" value="{{ restaurant_id }}">
+            
+            <table>
+                <tr>
+                    <td><label for="commentaire">Commentaire :</label></td>
+                    <td>
+                        <textarea id="commentaire" name="commentaire" required="required" rows="5" cols="50"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="note">Note :</label></td>
+                    <td>
+                        <select id="note" name="note" required>
+                            <option value="">--Sélectionner la note que vous souhaitez donner--</option>
+                            <option value="10">10</option>
+                            <option value="9">9</option>
+                            <option value="8">8</option>
+                            <option value="7">7</option>
+                            <option value="6">6</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="submit" value="Publier mon avis" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </body>
 </html>

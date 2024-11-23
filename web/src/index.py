@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -34,29 +34,45 @@ def get_price_range(prix):
 
 @app.route('/formulaire_avis/<int:restaurant_id>')
 def formulaire_avis(restaurant_id):
-    return render_template('formulaire_avis.html', restaurant_id=restaurant_id)
+    # Passer restaurant_id au template pour l'inclure dans le formulaire
+    return render_template('formulaire_avis.html', restaurant_id=restaurant_id, nom_du_restaurant="Nom du restaurant")
+
 
 @app.route('/ajout_restaurant')
 def formulaire_restaurant():
     return render_template('ajout_restaurant.html')
 
 
-@app.post('/ajout_avis/<int:id>')
-def ajout_avis(id:int):
-    conn = get_db_connection()
-    try:
-        cur = conn.cursor()
-        query = """
-        INSERT INTO  Avis (restaurant, commentaire, note, url_photo) VALUES
-        (%s, %s, %s, %s)
 
-        """
-        cur.execute(query, (id, request.form["commentaire"], request.form["note"], request.form["url_photo"]))
-    except psycopg2.Error as e:
-        print(f"Erreur lors de l'exécution de la requête SQL : {e}")
+@app.route('/ajout_avis', methods=['POST'])
+def ajout_avis():
+    # Récupérer les données du formulaire
+    restaurant_id = request.form['restaurant_id']
+    commentaire = request.form['commentaire']
+    note = request.form['note']
+
+    # Connexion à la base de données
+    conn = get_db_connection()  # Utilise la fonction de connexion PostgreSQL
+    cursor = conn.cursor()
+
+    # Insérer les données dans la table des avis
+    try:
+        cursor.execute("""
+            INSERT INTO avis (restaurant_id, commentaire, note)
+            VALUES (%s, %s, %s)
+        """, (restaurant_id, commentaire, note))
+        
+        # Commit la transaction pour valider l'insertion
+        conn.commit()  # Cette ligne est nécessaire pour enregistrer l'avis dans la base de données
+    except Exception as e:
+        print("Erreur lors de l'insertion :", e)
+        conn.rollback()  # Si une erreur se produit, on annule les changements
     finally:
         conn.close()
-    return render_template("restaurant.html", id =id)
+
+    # Rediriger l'utilisateur vers la page du restaurant après l'ajout de l'avis
+    return redirect(url_for('restaurant_details', restaurant_id=restaurant_id))
+
 
 @app.route('/restaurant/<int:restaurant_id>')
 def restaurant_details(restaurant_id):
