@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS Restaurant(
     adresse VARCHAR(200) NOT NULL,
     code_postal VARCHAR(40),
     site_web VARCHAR(60),
-    url_photo VARCHAR(200)
+    url_photo VARCHAR(200),
+    prix FLOAT
 );
 
 
