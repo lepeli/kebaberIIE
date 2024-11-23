@@ -10,6 +10,10 @@ LABEL nonroot="true"
 
 RUN addgroup -S appgroup && adduser -S app -G appgroup
 
+RUN \
+ apk add --no-cache postgresql-libs && \
+ apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+
 USER app
 
 COPY ./src/ /app
