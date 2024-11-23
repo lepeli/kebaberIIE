@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS Restaurant(
 
 
 CREATE TABLE IF NOT EXISTS Avis(
-    id SERIAL PRIMARY KEY NOT NULL,
-    restaurant VARCHAR(40) REFERENCES Restaurant(nom) NOT NULL,
-    commentaire VARCHAR(500) NOT NULL,
+    id SERIAL PRIMARY KEY REFERENCES Restaurant(id) NOT NULL,
+    commentaire VARCHAR(500) NOT NULL,,
+    restaurant VARCHAR(40) 
 	note INT NOT NULL,
     url_photo VARCHAR(200)
 );
