@@ -21,66 +21,60 @@
                 </div>
             </div>
         </header>
-        
-
-        <h2>Les meilleurs restaurants de kebabs</h2>
-
-        {% if restaurants %}
-            <div class="restaurant-list">
-                {% for restaurant in restaurants %}
-                    <div class="restaurant-item">
-                        <h3>{{ restaurant[0] }}</h3>
-                        <p><strong>Adresse:</strong> {{ restaurant[1] }}</p>
-                        <p><strong>Site web:</strong> <a href="{{ restaurant[2] }}" target="_blank">{{ restaurant[2] }}</a></p>
-                        <img src="{{ restaurant[3] }}" alt="Image du restaurant" width="150">
-                        <p><strong>Note moyenne:</strong> {{ restaurant[4] }} / 10</p>
-                        <a href="#" class="button">Voir le restaurant</a>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>Aucun restaurant trouvé.</p>
-        {% endif %}
-
-
+    
+        <!-- Main Content -->
         <main class="main-content">
-            <h2 class="section-title">Les meilleurs kebabs</h2>
-            <div class="kebab-list">
-                <!-- Contenu des kebabs -->
-                <div class="kebab-item">
-                    <!-- image a ajouter depuis le S3 Bucket-->
-                    <img src="kebab1.jpg" alt="Photo du kebab" class="kebab-image">
-                    <div class="kebab-info">
-                        <h3 class="kebab-name">Kebab Istanbul</h3>
-                        <p class="kebab-price">Prix : €€</p>
-                        <p class="kebab-rating">Note générale : ⭐⭐⭐⭐☆ (4.2)</p>
-                        <button class="btn-details">Voir détails</button>
-                    </div>
-                </div>
-                <div class="kebab-item">
-                    <!-- image a ajouter depuis le S3 Bucket-->
-                    <img src="kebab2.jpg" alt="Photo du kebab" class="kebab-image">
-                    <div class="kebab-info">
-                        <h3 class="kebab-name">Le Sultan</h3>
-                        <p class="kebab-price">Prix : €</p>
-                        <p class="kebab-rating">Note générale : ⭐⭐⭐⭐⭐ (4.8)</p>
-                        <button class="btn-details">Voir détails</button>
-                    </div>
-                </div>
-                <div class="kebab-item">
-                    <!-- image a ajouter depuis le S3 Bucket-->
-                    <img src="kebab3.jpg" alt="Photo du kebab" class="kebab-image">
-                    <div class="kebab-info">
-                        <h3 class="kebab-name">Le Sultan</h3>
-                        <p class="kebab-price">Prix : €</p>
-                        <p class="kebab-rating">Note générale : ⭐⭐⭐⭐⭐ (4.8)</p>
-                        <button class="btn-details">Voir détails</button>
-                    </div>
-                </div>
+            <h2 class="section-title">Nos restaurants</h2>
+    
+            <!-- Liste des restaurants -->
+            <div class="restaurant-list">
+                {% if restaurants %}
+                    <!-- Si des restaurants existent, on les affiche dans un tableau -->
+                    <table class="restaurant-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Adresse</th>
+                                <th>Code Postal</th>
+                                <th>Site Web</th>
+                                <th>Photo</th>
+                                <th>Note Moyenne</th>
+                                <th>Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for restaurant in restaurants %}
+                                <tr>
+                                    <td>{{ restaurant[1] if restaurant[1] else 'Non renseigné' }}</td>
+                                    <td>{{ restaurant[2] if restaurant[2] else 'Non renseigné' }}</td>
+                                    <td>{{ restaurant[3] if restaurant[3] else 'Non renseigné' }}</td>
+                                    <td>
+                                        {% if restaurant[4] %}
+                                            <a href="{{ restaurant[4] }}" target="_blank">Visiter</a>
+                                        {% else %}
+                                            Non renseigné
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if restaurant[5] %}
+                                            <img src="{{ restaurant[5] }}" alt="Photo" class="restaurant-photo">
+                                        {% else %}
+                                            Non renseigné
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ '{:.1f}'.format(restaurant[7]) if restaurant[7] else 'Non renseigné' }}</td> <!-- Note Moyenne -->
+                                    <td>{{ get_price_range(restaurant[6]) if restaurant[6] else 'Non renseigné' }}</td> <!-- Fourchette de prix -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Aucun restaurant trouvé.</p>
+                {% endif %}
             </div>
         </main>
     </div>
-
+    
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 KebaberIIE. Tous droits réservés.</p>

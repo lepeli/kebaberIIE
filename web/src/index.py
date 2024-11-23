@@ -65,19 +65,32 @@ def ajout_restaurant():
         conn.close()
     return render_template("formulaire_avis.html")
 
-# Route principale pour afficher les restaurants et leurs avis
+# Fonction pour déterminer la fourchette de prix
+def get_price_range(prix):
+    if prix < 10:
+        return "Moins de 10€"
+    elif 10 <= prix < 20:
+        return "10€ à 20€"
+    elif 20 <= prix < 30:
+        return "20€ à 30€"
+    elif 30 <= prix < 50:
+        return "30€ à 50€"
+    else:
+        return "Plus de 50€"        
+
+# Route principale pour afficher les restaurants et leur note moyenne
 @app.route('/')
 def index():
     conn = get_db_connection()
     try:
         cur = conn.cursor()
-        # Requête SQL pour récupérer les restaurants avec leurs informations et note moyenne
+        # Requête SQL pour récupérer les restaurants avec leur note moyenne
         query = """
-        SELECT r.nom, r.adresse, r.site_web, r.url_photo,
+        SELECT r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix,
                COALESCE(AVG(a.note), 0) AS moyenne_note
-        FROM "Restaurant" r
-        LEFT JOIN "Avis" a ON r.nom = a.restaurant
-        GROUP BY r.nom, r.adresse, r.site_web, r.url_photo
+        FROM Restaurant r
+        LEFT JOIN Avis a ON r.id = a.restaurant
+        GROUP BY r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix
         ORDER BY moyenne_note DESC;
         """
         cur.execute(query)
@@ -90,7 +103,10 @@ def index():
         conn.close()
 
     # Passer la liste des restaurants au template
-    return render_template('index.html')
+    return render_template('index.html', restaurants=restaurants, get_price_range=get_price_range)
+
+
+
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
