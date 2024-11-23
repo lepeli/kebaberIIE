@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Ajouter restaurant</title>
+</head>
+<body>
+    <h1>Inscrire un nouveau restaurant dans la base de données </h1>
+    <form action="/ajout_restaurant" method="POST">
+        <table>
+            <tr>
+                <td>Nom du restaurant :</td>
+                <td><input type="text" name="restaurant" size="50"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Adresse :</td>
+                <td>  <input type="text" name="adresse" size="50"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Code postal :</td>
+                <td>  <input type="int" name="code_postal" size="5"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Url du site web :</td>
+                <td>  <input type="text" name="site_web" size="50" default="NULL"/>
+                </td>
+            </tr>            <tr>
+                <td>Photo du restaurant :</td>
+                <td>  <input type="file" name="url_photo" default="NULL"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>        
+                    <input type="submit" value="Ajouter ce restaurant" />
+                </td>
+            </tr>
+
+        </table>
+
+
+    </form>
+</body>
+</html>
