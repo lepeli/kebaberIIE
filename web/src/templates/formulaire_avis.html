@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Mon avis</title>
+</head>
+<body>
+    <h1>Mon avis sur le {{nom_du_restaurant}} </h1>
+    <form action="/ajout_avis" method="POST">
+        <table>
+            <tr>
+                <td>Commentaire :</td>
+                <td><textarea name="commentaire" required="required" rows="5" cols="50"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Note :</td>
+                <td>   <!--  <input type="int" name="note" required="required"  /> -->
+                    <select name="note">
+                        <option value="">--Sélectionner la note que vous souhaitez donner--</option>
+                        <option value="10">10</option>
+                        <option value="9">9</option>
+                        <option value="8">8</option>
+                        <option value="7">7</option>
+                        <option value="6">6</option>
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+    
+                      </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>        
+                    <input type="submit" value="Publier mon avis" />
+                </td>
+            </tr>
+
+        </table>
+
+
+    </form>
+</body>
+</html>
