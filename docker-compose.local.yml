@@ -7,14 +7,17 @@ services:
       - ./garage/garage.toml:/etc/garage.toml
       - ./data/meta:/data/garage/meta
       - ./data/meta:/data/garage/data
+
   imageresizer:
     build: ./imageResizer
+    env_file: .env
 
   redis:
     image: redis:latest
     volumes: 
-     - redis_vol:/data
+     - ./data/redis:/data
     command: "--save 30 1"
+    env_file: .env
 
   web:
     build: ./web
@@ -22,6 +25,15 @@ services:
       - "./web/src/:/app"
     ports:
       - 8080:8080
+    env_file: .env
 
-volumes:
-  redis_vol:
+  postgres:
+    image: postgres
+    env_file: .env
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  # adminer:
+  #   image: adminer
+  #   ports:
+  #     - 6565:8080

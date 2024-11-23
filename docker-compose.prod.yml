@@ -1,20 +1,41 @@
 services:
   # garage:
-  #   image: dxflrs/garage:v1.0.1
+  #   image: dxflrs/garage:v1.0.0
   #   network_mode: "host"
   #   restart: unless-stopped
   #   volumes:
-  #     - /etc/garage.toml:/etc/garage.toml
-  #     - /data/garage/meta:/var/lib/garage/meta
-  #     - /data/garage/data:/var/lib/garage/data
+  #     - ./garage/garage.toml:/etc/garage.toml
+  #     - ./data/meta:/data/garage/meta
+  #     - ./data/meta:/data/garage/data
+
   imageresizer:
     build: ./imageResizer
+    env_file: .env
 
   redis:
     image: redis:latest
     volumes: 
      - redis_vol:/data
     command: "--save 30 1"
+    env_file: .env
+
+  web:
+    build: ./web
+    ports:
+      - 8080:8080
+    env_file: .env
+
+  postgres:
+    image: postgres
+    env_file: .env
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+
+  # adminer:
+  #   image: adminer
+  #   ports:
+  #     - 6565:8080
 
 volumes:
   redis_vol:
+  postgres_vol:
