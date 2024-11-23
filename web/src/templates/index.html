@@ -29,10 +29,10 @@
             <div class="restaurant-list">
                 {% for restaurant in restaurants %}
                     <div class="restaurant-item">
-                        <h3>{{ restaurant[0] }}</h3>
-                        <p><strong>Adresse:</strong> {{ restaurant[1] }}</p>
-                        <p><strong>Site web:</strong> <a href="{{ restaurant[2] }}" target="_blank">{{ restaurant[2] }}</a></p>
-                        <img src="{{ restaurant[3] }}" alt="Image du restaurant" width="150">
+                        <a href="restaurant/{{ restaurant[0] }}"><h3>{{ restaurant[1] }}</h3></a>
+                        <p><strong>Adresse:</strong> {{ restaurant[2] }}</p>
+                        <p><strong>Site web:</strong> <a href="{{ restaurant[3] }}" target="_blank">{{ restaurant[3] }}</a></p>
+                        <img src="{{ restaurant[4] }}" alt="Image du restaurant" width="150">
                         <p><strong>Note moyenne:</strong> {{ restaurant[4] }} / 10</p>
                         <a href="#" class="button">Voir le restaurant</a>
                     </div>
