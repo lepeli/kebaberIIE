@@ -14,4 +14,4 @@ import time
 while True:
 
     print("en attente de job...")
-    time.sleep(1)
+    time.sleep(15)
