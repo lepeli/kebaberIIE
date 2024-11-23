@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Restaurant</title>
+</head>
+<body class="container">
+     <!-- Header -->
+     <header class="main-header">
+        <div class="container">
+            <h1 class="logo">KebaberIIE</h1>
+            <div class="search-add">
+                
+                <a href="ajout_avis"> Accueil</button> </a>
+                <a href="ajout_avis"> + Ajouter un restaurant</button> </a>
+                   
+            
+            </div>
+        </div>
+    </header>
+    
+    <h1 class="main-header">Le {{nom_du_restaurant}} </h1>
+    
+    {% if avis %}
+    <table class="avis-list">
+        <tr>
+            <td>Photo</td>
+            <td>Commentaire</td>
+            <td>Note</td>
+        </tr>
+        {% for a in avis %}
+            <tr class="avis-item">
+                <td>
+                    <img src="{{ a[4] }}" alt="Image du restaurant" width="150">
+                </td>
+                <td>{{ a[2] }}</td>
+                <td>{{ a[3 ]}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+{% else %}
+    <p>Aucun restaurant trouvé.</p>
+{% endif %}
+
+       
+</body>
+</html>
