@@ -6,7 +6,6 @@
   font-family: Arial, sans-serif;
 }
 
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -43,18 +42,6 @@
   font-weight: bold;
 }
 
-.search-add {
-  display: flex;
-  gap: 1rem;
-}
-
-.search-bar {
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  width: 250px;
-}
-
 .btn-add {
   background: #fff;
   color: #0eb47d;
@@ -71,73 +58,10 @@
   background: #f4f4f4;
 }
 
-/* Main Content */
-.main-content {
-  width: 90%;
-  max-width: 1200px;
-  margin: 2rem auto;
-  text-align: center;
-}
-
 .section-title {
   font-size: 2rem;
   color: #0eb47d;
   margin-bottom: 1.5rem;
-}
-
-.kebab-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.kebab-item {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  gap: 1.5rem;
-  text-align: left;
-}
-
-.kebab-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.kebab-info {
-  flex: 1;
-}
-
-.kebab-name {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.kebab-price,
-.kebab-rating {
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.btn-details {
-  background: #0eb47d;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.btn-details:hover {
-  background: #336dff;
 }
 
 /* Footer */
@@ -165,34 +89,7 @@ h1 {
   gap: 20px;
   padding: 20px;
 }
-.restaurant-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 300px;
-  background: #fff;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-}
-.restaurant-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-.restaurant-card h2 {
-  font-size: 1.2rem;
-  margin: 10px 0;
-}
-.restaurant-card p {
-  margin: 5px 0;
-}
-.restaurant-card a {
-  color: #0eb47d;
-  text-decoration: none;
-}
-.restaurant-card a:hover {
-  text-decoration: underline;
-}
+
 
 .avis-form {
   margin: 20px auto;
@@ -221,16 +118,11 @@ h1 {
 }
 
 .avis-form input[type="submit"] {
-  background-color: #0eb47d; /* Couleur bleu standard pour le bouton */
   color: white; /* Texte blanc */
   font-weight: bold; /* Texte en gras */
   cursor: pointer; /* Change le curseur en pointeur */
   border: none; /* Pas de bordure supplémentaire */
   transition: background-color 0.3s ease; /* Animation pour l'effet hover */
-}
-
-.avis-form input[type="submit"]:hover {
-  background-color: #075404; /* Couleur plus foncée au survol */
 }
 
 /* Style pour la liste des restaurants */
@@ -286,7 +178,7 @@ h1 {
 
 /* Champs non renseignés */
 .non-renseigne {
-  color: rgb(213, 99, 12);
+  color: #ff8c00;
   font-weight: bold;
   text-align: center;
 }
@@ -310,7 +202,7 @@ h1 {
 
 .restaurant-details h1 {
   font-size: 2rem;
-  color: #333;
+  color: #e67e00;
   margin-bottom: 10px;
 }
 
@@ -406,4 +298,39 @@ h1 {
 .search-form {
   display: flex;
   align-items: center;
+}
+
+/* Ajouter de l'espace entre les lignes du tableau */
+.avis-form table tr {
+  margin-bottom: 15px; /* Espace vertical entre les lignes */
+  height: 50px; /* Uniformiser la hauteur des lignes */
+}
+
+/* Espacer les champs de texte */
+.avis-form input[type="text"],
+.avis-form input[type="int"],
+.avis-form input[type="float"],
+.avis-form input[type="url"],
+.avis-form input[type="file"] {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Ajuste la largeur des champs */
+  box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+/* Soumission */
+.avis-form input[type="submit"] {
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.avis-form input[type="submit"]:hover {
+  background-color: #e67e00;
 }
