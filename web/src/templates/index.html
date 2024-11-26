@@ -9,7 +9,7 @@
 <body>
     <div class="wrapper">
         <!-- Header -->
-        <header class="main-header">
+        <!--<header class="main-header">
             <div class="container">
                 <h1 class="logo">KebaberIIE</h1>
                 <div class="search-add">
@@ -20,7 +20,26 @@
                 
                 </div>
             </div>
+        </header>-->
+
+        <!-- Header -->
+        <header class="main-header">
+            <div class="container">
+                <!-- Logo -->
+                <h1 class="logo">KebaberIIE</h1>
+                
+                <!-- Navigation -->
+                <nav class="nav-buttons">
+                    <form action="{{ url_for('index') }}" method="GET" class="search-form">
+                        <input type="text" name="query" placeholder="Rechercher un restaurant..." class="btn-add" value="{{ request.args.get('query', '') }}">
+                        <button type="submit" class="btn-add">Rechercher</button>
+                    </form>
+                    <!-- Formulaire de recherche -->
+                    <a href="{{ url_for('formulaire_restaurant') }}" class="btn-add">Ajouter un restaurant</a>
+                </nav>
+            </div>
         </header>
+
     
         <!-- Main Content -->
         <main class="main-content">
@@ -45,25 +64,48 @@
                         <tbody>
                             {% for restaurant in restaurants %}
                                 <tr>
-                                    <td><a href="restaurant/{{ restaurant[0] }}">{{ restaurant[1] if restaurant[1] else 'Non renseigné' }}</a></td>
-                                    <td>{{ restaurant[2] if restaurant[2] else 'Non renseigné' }}</td>
-                                    <td>{{ restaurant[3] if restaurant[3] else 'Non renseigné' }}</td>
-                                    <td>
+                                    <!-- Nom -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[1] else '' }}">
+                                        <a href="restaurant/{{ restaurant[0] }}">{{ restaurant[1] if restaurant[1] else 'Non renseigné' }}</a>
+                                    </td>
+                        
+                                    <!-- Adresse -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[2] else '' }}">
+                                        {{ restaurant[2] if restaurant[2] else 'Non renseigné' }}
+                                    </td>
+                        
+                                    <!-- Code Postal -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[3] else '' }}">
+                                        {{ restaurant[3] if restaurant[3] else 'Non renseigné' }}
+                                    </td>
+                        
+                                    <!-- Site Web -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[4] else '' }}">
                                         {% if restaurant[4] %}
                                             <a href="{{ restaurant[4] }}" target="_blank">Visiter</a>
                                         {% else %}
                                             Non renseigné
                                         {% endif %}
                                     </td>
-                                    <td>
+                        
+                                    <!-- Photo -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[5] else '' }}">
                                         {% if restaurant[5] %}
                                             <img src="{{ restaurant[5] }}" alt="Photo" class="restaurant-photo">
                                         {% else %}
                                             Non renseigné
                                         {% endif %}
                                     </td>
-                                    <td>{{ '{:.1f}'.format(restaurant[7]) if restaurant[7] else 'Non renseigné' }}</td> <!-- Note Moyenne -->
-                                    <td>{{ get_price_range(restaurant[6]) if restaurant[6] else 'Non renseigné' }}</td> <!-- Fourchette de prix -->
+                        
+                                    <!-- Note Moyenne -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[7] else '' }}">
+                                        {{ '{:.1f}'.format(restaurant[7]) if restaurant[7] else 'Non renseigné' }}
+                                    </td>
+                        
+                                    <!-- Prix -->
+                                    <td class="{{ 'non-renseigne' if not restaurant[6] else '' }}">
+                                        {{ get_price_range(restaurant[6]) if restaurant[6] else 'Non renseigné' }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

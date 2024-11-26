@@ -64,6 +64,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-left:5px ;
 }
 
 .btn-add:hover {
@@ -283,10 +284,11 @@ h1 {
   border-radius: 8px;
 }
 
-/* Style pour la note moyenne */
-.restaurant-table td:nth-child(4) {
+/* Champs non renseignés */
+.non-renseigne {
+  color: rgb(213, 99, 12);
   font-weight: bold;
-  color: #ff8c00;
+  text-align: center;
 }
 
 /* Ajouter un peu de padding et de séparation entre les éléments */
@@ -391,4 +393,17 @@ h1 {
   .main-header {
       font-size: 28px;
   }
+}
+
+/* Container styling for navigation */
+.nav-buttons {
+  display: flex;
+  gap: 15px; /* Espace entre les boutons */
+  align-items: center;
+}
+
+/* Style pour le formulaire de recherche dans le header */
+.search-form {
+  display: flex;
+  align-items: center;
 }

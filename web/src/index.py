@@ -134,19 +134,35 @@ def ajout_restaurant():
 # Route principale pour afficher les restaurants et leur note moyenne
 @app.route('/')
 def index():
+    query = request.args.get('query')  # Récupérer la requête de recherche depuis l'URL
     conn = get_db_connection()
     try:
         cur = conn.cursor()
-        # Requête SQL pour récupérer les restaurants avec leur note moyenne
-        query = """
-        SELECT r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix,
-               COALESCE(AVG(a.note), 0) AS moyenne_note
-        FROM Restaurant r
-        LEFT JOIN Avis a ON r.id = a.restaurant
-        GROUP BY r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix
-        ORDER BY moyenne_note DESC;
-        """
-        cur.execute(query)
+        
+        if query:
+            # Si une requête de recherche est présente, filtrer les restaurants par nom
+            query_sql = """
+                SELECT r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix,
+                       COALESCE(AVG(a.note), 0) AS moyenne_note
+                FROM Restaurant r
+                LEFT JOIN Avis a ON r.id = a.restaurant
+                WHERE r.nom ILIKE %s  -- Utilisation de ILIKE pour une recherche insensible à la casse
+                GROUP BY r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix
+                ORDER BY moyenne_note DESC;
+            """
+            cur.execute(query_sql, ('%' + query + '%',))  # Recherche avec les pourcentages pour correspondre à n'importe où dans le nom
+        else:
+            # Si aucune requête de recherche, récupérer tous les restaurants
+            query_sql = """
+                SELECT r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix,
+                       COALESCE(AVG(a.note), 0) AS moyenne_note
+                FROM Restaurant r
+                LEFT JOIN Avis a ON r.id = a.restaurant
+                GROUP BY r.id, r.nom, r.adresse, r.code_postal, r.site_web, r.url_photo, r.prix
+                ORDER BY moyenne_note DESC;
+            """
+            cur.execute(query_sql)
+        
         restaurants = cur.fetchall()
         cur.close()
     except psycopg2.Error as e:
@@ -155,9 +171,8 @@ def index():
     finally:
         conn.close()
 
-    # Passer la liste des restaurants au template
-    return render_template('index.html', restaurants=restaurants, get_price_range=get_price_range)
-
+    # Passer la liste des restaurants et le terme de recherche au template
+    return render_template('index.html', restaurants=restaurants, get_price_range=get_price_range, query=query)
 
 
 
