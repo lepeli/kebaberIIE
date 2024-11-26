@@ -7,6 +7,8 @@ VALUES
     '91000', NULL, 'https://lh3.googleusercontent.com/p/AF1QipObPLGRXtUaslQIwDI2VSs2EsOU8MeSqgktUpY5=s680-w680-h510',9.00)
     ;
 
+ALTER SEQUENCE restaurant_id_seq RESTART WITH 3;
+
 INSERT INTO Avis (restaurant, commentaire, note, url_photo)
 VALUES
     (1, 'Très bon restaurant. Service agréable et rapide', 9,
@@ -15,3 +17,5 @@ VALUES
     NULL),
     (2, 'Bon kebab', 6,NULL)
     ;
+
+ALTER SEQUENCE avis_id_seq RESTART WITH 3;
