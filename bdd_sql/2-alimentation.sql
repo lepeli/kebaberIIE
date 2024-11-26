@@ -11,11 +11,8 @@ ALTER SEQUENCE restaurant_id_seq RESTART WITH 3;
 
 INSERT INTO Avis (restaurant, commentaire, note, url_photo)
 VALUES
-    (1, 'Très bon restaurant. Service agréable et rapide', 9,
-    NULL),
-    (1, 'Très bon rapport qualité prix. Service rapide si on commande par internet', 8,
-    NULL),
-    (2, 'Bon kebab', 6,NULL)
-    ;
+    (1, 'Très bon restaurant. Service agréable et rapide', 9,NULL),
+    (1, 'Très bon rapport qualité prix. Service rapide si on commande par internet', 8, NULL),
+    (2, 'Bon kebab', 6,NULL);
 
-ALTER SEQUENCE avis_id_seq RESTART WITH 3;
+ALTER SEQUENCE avis_id_seq RESTART WITH 4;

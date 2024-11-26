@@ -58,7 +58,7 @@ def ajout_avis():
     # Insérer les données dans la table des avis
     try:
         cursor.execute("""
-            INSERT INTO avis (restaurant_id, commentaire, note)
+            INSERT INTO avis (restaurant, commentaire, note)
             VALUES (%s, %s, %s)
         """, (restaurant_id, commentaire, note))
         
