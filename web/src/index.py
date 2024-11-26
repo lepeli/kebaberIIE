@@ -132,6 +132,7 @@ def restaurant_details(restaurant_id):
 @app.post('/ajout_restaurant')
 def ajout_restaurant():
     print(request.form)
+    restaurant_id=None
     conn = get_db_connection()
     try:
         cur = conn.cursor()
