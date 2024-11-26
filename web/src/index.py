@@ -34,8 +34,28 @@ def get_price_range(prix):
 
 @app.route('/formulaire_avis/<int:restaurant_id>')
 def formulaire_avis(restaurant_id):
-    # Passer restaurant_id au template pour l'inclure dans le formulaire
-    return render_template('formulaire_avis.html', restaurant_id=restaurant_id, nom_du_restaurant="Nom du restaurant")
+    # Connexion à la base de données
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        # Requête SQL pour récupérer le nom du restaurant
+        cur.execute("SELECT nom FROM Restaurant WHERE id = %s", (restaurant_id,))
+        restaurant = cur.fetchone()  # Récupérer un seul résultat (le restaurant)
+        cur.close()
+
+        if restaurant:
+            nom_du_restaurant = restaurant[0]
+        else:
+            nom_du_restaurant = "Restaurant introuvable"
+    except Exception as e:
+        print(f"Erreur lors de la récupération du restaurant : {e}")
+        nom_du_restaurant = "Erreur lors de la récupération du nom"
+
+    finally:
+        conn.close()
+
+    # Passer restaurant_id et nom_du_restaurant au template
+    return render_template('formulaire_avis.html', restaurant_id=restaurant_id, nom_du_restaurant=nom_du_restaurant)
 
 
 @app.route('/ajout_restaurant')
