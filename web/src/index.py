@@ -118,16 +118,17 @@ def ajout_restaurant():
         query = """
         INSERT INTO  Restaurant (nom, adresse, code_postal, site_web, url_photo, prix ) VALUES
         (%s, %s, %s, %s, %s, %s)
-
+        RETURNING id
         """
         cur.execute(query, (request.form["nom"], request.form["adresse"], request.form["code_postal"],
                     request.form["site_web"], request.form["url_photo"], request.form["prix"]))
+        restaurant_id=cur.fetchone()[0]
         cur.execute("commit;")
     except psycopg2.Error as e:
         print(f"Erreur lors de l'exécution de la requête SQL : {e}")
     finally:
         conn.close()
-    return render_template("formulaire_avis.html")
+    return redirect(url_for('restaurant_details', restaurant_id=restaurant_id))
 
 
 # Route principale pour afficher les restaurants et leur note moyenne
