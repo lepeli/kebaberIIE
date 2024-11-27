@@ -1,6 +1,13 @@
 import os
 import psycopg2
+import secrets
+import pathlib
+
+from io import BytesIO
+from minio import Minio
+from redis import Redis
 from flask import Flask, render_template, request, redirect, url_for
+
 
 app = Flask(__name__)
 
@@ -135,6 +142,14 @@ def ajout_restaurant():
     restaurant_id=None
     conn = get_db_connection()
     try:
+
+        picture_url = None
+        # check if files exists
+
+        if request.files["photo"].filename != "":
+            picture_url = uploadFile(request.files["photo"])# to do stuff with the picture
+            pass
+
         cur = conn.cursor()
         query = """
         INSERT INTO  Restaurant (nom, adresse, code_postal, site_web, url_photo, prix ) VALUES
@@ -142,7 +157,7 @@ def ajout_restaurant():
         RETURNING id
         """
         cur.execute(query, (request.form["nom"], request.form["adresse"], request.form["code_postal"],
-                    request.form["site_web"], request.form["url_photo"], request.form["prix"]))
+                    request.form["site_web"], picture_url, request.form["prix"]))
         restaurant_id=cur.fetchone()[0]
         cur.execute("commit;")
     except psycopg2.Error as e:
@@ -196,6 +211,27 @@ def index():
     return render_template('index.html', restaurants=restaurants, get_price_range=get_price_range, query=query)
 
 
+
+def uploadFile(file):
+    """Uploads and add return a URL"""
+    mini = Minio(
+            endpoint=os.environ["S3_BUCKET_ADDRESS"],
+            region=os.environ["S3_BUCKET_REGION"],
+            access_key=os.environ["S3_BUCKET_ACCESS_KEY_ID"],
+            secret_key=os.environ["S3_BUCKET_SECRET_ACCESS_KEY"]
+            )
+    extension = "".join(pathlib.Path(file.filename).suffixes)
+    filename = secrets.token_urlsafe(10) + extension
+    mini.put_object(os.environ["S3_BUCKET_NAME"], filename, file, os.fstat(file.fileno()).st_size)
+
+    return os.environ["S3_BUCKET_PUBLIC_ADDRESS"] + "/" + filename    
+
+    pass
+
+# def askForCompression():
+#     """Sends the image to be processed into the Redis queue system"""
+#     r = Redis("redis", port=6379)
+#     # r.rpush()
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
