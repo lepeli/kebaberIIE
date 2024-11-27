@@ -1,6 +1,16 @@
 import os
 import psycopg2
+
+from minio import Minio
+from redis import Redis
 from flask import Flask, render_template, request, redirect, url_for
+
+mini = Minio(
+            endpoint=os.environ["S3_BUCKET_ADDRESS"],
+            region=os.environ["S3_BUCKET_REGION"],
+            access_key=os.environ["S3_BUCKET_ACCESS_KEY_ID"],
+            secret_key=os.environ["S3_BUCKET_SECRET_ACCESS_KEY"]
+            )
 
 app = Flask(__name__)
 
@@ -135,6 +145,14 @@ def ajout_restaurant():
     restaurant_id=None
     conn = get_db_connection()
     try:
+
+        picture_url = None
+        # check if files exists
+
+        if request.files["photo"].filename != "":
+            picture_url = uploadPicture(request.files["photo"])# to do stuff with the picture
+            pass
+
         cur = conn.cursor()
         query = """
         INSERT INTO  Restaurant (nom, adresse, code_postal, site_web, url_photo, prix ) VALUES
@@ -196,6 +214,11 @@ def index():
     return render_template('index.html', restaurants=restaurants, get_price_range=get_price_range, query=query)
 
 
+
+def uploadPicture(picture):
+    """Uploads the picture to the S3 bucket and add it to the processing queue"""
+
+    pass
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
