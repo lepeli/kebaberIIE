@@ -11,6 +11,8 @@ services:
   imageresizer:
     build: ./imageResizer
     env_file: .env
+    networks:
+      - kebaberiie
 
   redis:
     image: redis:latest
@@ -18,18 +20,33 @@ services:
      - redis_vol:/data
     command: "--save 30 1"
     env_file: .env
+    networks:
+      - kebaberiie
 
   web:
     build: ./web
-    ports:
-      - 8080:8080
+    # ports:
+      # - 8080:8080
     env_file: .env
+    networks:
+      - kebaberiie
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.kebaberiie.rule=Host(`kebaberiie.56k.ing`)
+      - traefik.http.routers.kebaberiie.service=kebaberiie
+      - traefik.http.services.kebaberiie.loadbalancer.server.port=8080 
 
   postgres:
     image: postgres
     env_file: .env
     volumes:
       - postgres_vol:/var/lib/postgresql/data
+      - ./bdd_sql:/docker-entrypoint-initdb.d/
+
+    networks:
+      - kebaberiie
 
   # adminer:
   #   image: adminer
@@ -39,3 +56,8 @@ services:
 volumes:
   redis_vol:
   postgres_vol:
+
+networks:
+  kebaberiie:
+  traefik:
+    external: true
