@@ -81,14 +81,20 @@ def ajout_avis():
     # Connexion à la base de données
     conn = get_db_connection()  # Utilise la fonction de connexion PostgreSQL
     cursor = conn.cursor()
+    picture_url = None
+    # Check if a picture has been uploaded by the user
 
     # Insérer les données dans la table des avis
     try:
+
+        if request.files["photo"].filename != "":
+            picture_url = uploadFile(request.files["photo"])# to do stuff with the picture
+
         cursor.execute("""
-            INSERT INTO avis (restaurant, commentaire, note)
-            VALUES (%s, %s, %s)
-        """, (restaurant_id, commentaire, note))
-        
+            INSERT INTO avis (restaurant, commentaire, note, url_photo)
+            VALUES (%s, %s, %s, %s)
+        """, (restaurant_id, commentaire, note, picture_url))
+        cursor.execute("commit;")
         # Commit la transaction pour valider l'insertion
         conn.commit()  # Cette ligne est nécessaire pour enregistrer l'avis dans la base de données
     except Exception as e:
@@ -148,7 +154,6 @@ def ajout_restaurant():
 
         if request.files["photo"].filename != "":
             picture_url = uploadFile(request.files["photo"])# to do stuff with the picture
-            pass
 
         cur = conn.cursor()
         query = """

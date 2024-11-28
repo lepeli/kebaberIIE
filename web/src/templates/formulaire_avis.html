@@ -7,7 +7,7 @@
 <body class="container">
     <div class="main-content">
         <h1 class="main-header">Mon avis sur le {{ nom_du_restaurant }}</h1>
-        <form class="avis-form" action="/ajout_avis" method="POST">
+        <form class="avis-form" action="/ajout_avis" method="POST" enctype="multipart/form-data">
             <!-- Champ caché pour transmettre l'ID du restaurant -->
             <input type="hidden" name="restaurant_id" value="{{ restaurant_id }}">
             
@@ -34,6 +34,12 @@
                             <option value="2">2</option>
                             <option value="1">1</option>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="photo">Photo:</label></td>
+                    <td>
+                        <input type="file" name="photo" id="photo">
                     </td>
                 </tr>
                 <tr>
