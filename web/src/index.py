@@ -223,15 +223,15 @@ def uploadFile(file):
     extension = "".join(pathlib.Path(file.filename).suffixes)
     filename = secrets.token_urlsafe(10) + extension
     mini.put_object(os.environ["S3_BUCKET_NAME"], filename, file, os.fstat(file.fileno()).st_size)
-
+    askForCompression(filename)
     return os.environ["S3_BUCKET_PUBLIC_ADDRESS"] + "/" + filename    
 
     pass
 
-# def askForCompression():
-#     """Sends the image to be processed into the Redis queue system"""
-#     r = Redis("redis", port=6379)
-#     # r.rpush()
+def askForCompression(imagePath):
+    """Sends the image to be processed into the Redis queue system"""
+    r = Redis("redis", port=6379)
+    r.rpush("compressing_queue", str({"image": imagePath}))
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
