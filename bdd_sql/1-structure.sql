@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS Restaurant(
     nom VARCHAR(40) NOT NULL,
     adresse VARCHAR(200) NOT NULL,
     code_postal VARCHAR(40),
-    site_web VARCHAR(60),
-    url_photo VARCHAR(200),
+    site_web VARCHAR(255),
+    url_photo VARCHAR(255),
     prix FLOAT
 );
 
@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS Avis(
     restaurant INT REFERENCES Restaurant(id) NOT NULL,
     commentaire VARCHAR(500) NOT NULL,
 	note INT NOT NULL,
-    url_photo VARCHAR(200)
+    url_photo VARCHAR(255)
 );
