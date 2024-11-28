@@ -130,17 +130,22 @@ h1 {
   margin-top: 30px;
 }
 
-.restaurant-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 30px;
+/* Rendre le tableau responsive */
+.restaurant-table-wrapper {
+  overflow-x: auto; /* Ajoute un défilement horizontal pour les écrans étroits */
+  -webkit-overflow-scrolling: touch; /* Ajoute une expérience de défilement fluide sur les appareils mobiles */
 }
 
-.restaurant-table th,
-.restaurant-table td {
-  padding: 15px;
-  text-align: left;
-  border: 1px solid #ddd;
+.restaurant-table {
+  width: 100%; /* Le tableau prend toute la largeur disponible */
+  min-width: 600px; /* Définit une largeur minimale pour éviter qu'il soit trop comprimé */
+  border-collapse: collapse;
+}
+
+.restaurant-table th, .restaurant-table td {
+  text-align: left; /* Alignement du texte pour une meilleure lisibilité */
+  padding: 15px; /* Ajoute de l'espace autour des contenus */
+  border: 1px solid #ddd; /* Bordure pour mieux séparer les cellules */
 }
 
 .restaurant-table th {
@@ -273,7 +278,7 @@ h1 {
 /* Responsive Design */
 @media (max-width: 768px) {
   .restaurant-table th, .restaurant-table td {
-      font-size: 14px;
+    font-size: 14px;
       padding: 10px;
   }
 
@@ -282,9 +287,49 @@ h1 {
       height: 60px;
   }
 
-  .main-header {
-      font-size: 28px;
-  }
+  .main-header .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-buttons {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-form {
+    flex-direction: column;
+    width: 100%;
+}
+
+.search-form input[type="text"],
+.search-form button {
+    width: 100%;
+    margin: 5px 0;
+}
+
+.btn-add {
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+}
+
+.footer {
+    font-size: 14px;
+    padding: 10px;
+}
+
+.main-header .logo {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
 }
 
 /* Container styling for navigation */
