@@ -2,6 +2,7 @@ import os
 import psycopg2
 import secrets
 import pathlib
+import json
 
 from io import BytesIO
 from minio import Minio
@@ -236,7 +237,7 @@ def uploadFile(file):
 def askForCompression(imagePath):
     """Sends the image to be processed into the Redis queue system"""
     r = Redis("redis", port=6379)
-    r.rpush("compressing_queue", str({"image": imagePath}))
+    r.rpush("compressing_queue", json.dumps({"image": imagePath}))
 
 # Lancement de l'application Flask
 if __name__ == "__main__":
