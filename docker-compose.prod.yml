@@ -13,6 +13,7 @@ services:
     env_file: .env
     networks:
       - kebaberiie
+    restart: always 
 
   redis:
     image: redis:latest
@@ -22,6 +23,7 @@ services:
     env_file: .env
     networks:
       - kebaberiie
+    restart: always
 
   web:
     build: ./web
@@ -37,6 +39,7 @@ services:
       - traefik.http.routers.kebaberiie.rule=Host(`kebaberiie.56k.ing`)
       - traefik.http.routers.kebaberiie.service=kebaberiie
       - traefik.http.services.kebaberiie.loadbalancer.server.port=8080 
+    restart: always
 
   postgres:
     image: postgres
@@ -44,7 +47,7 @@ services:
     volumes:
       - postgres_vol:/var/lib/postgresql/data
       - ./bdd_sql:/docker-entrypoint-initdb.d/
-
+    restart: always
     networks:
       - kebaberiie
 
